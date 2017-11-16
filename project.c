@@ -8,6 +8,8 @@
 #define CYN   "\x1B[36m"
 #define WHT   "\x1B[37m"
 #define RESET "\x1B[0m"
+#define CLOCKWISE 1
+#define COUNTER_CLOCKWISE 0
 
 void build_cube(char cube[6][3][3]) {
 	FILE * fp;
@@ -65,10 +67,50 @@ void print_cube(char cube[6][3][3]) {
 	printf("\n");
 }
 
+void rotate_cube(char cube[6][3][3], int side, int clockwise){
+	char temp[3];
+	int i = 0, a = 2, b = 0;
+
+	if(side == 3 || side == 5) {
+		if(side == 5) {
+			a = 0;
+			b = 2;
+		}
+		for(i=0; i<3; i++)
+			temp[i] = cube[0][i][a];
+
+		if(clockwise) {
+			for(i=0; i<3; i++)
+				cube[0][i][a] = cube[2][i][a];
+			for(i=0; i<3; i++)
+				cube[2][i][a] = cube[5][i][a];
+			for(i=0; i<3; i++)
+				cube[5][i][a] = cube[4][i][b];
+			for(i=0; i<3; i++)
+				cube[4][i][b] = temp[i];
+		}
+		else {
+			for(i=0; i<3; i++)
+				cube[0][i][a] = cube[4][i][b];
+			for(i=0; i<3; i++)
+				cube[4][i][b] = cube[5][i][a];
+			for(i=0; i<3; i++)
+				cube[5][i][a] = cube[2][i][a];
+			for(i=0; i<3; i++)
+				cube[2][i][a] = temp[i];
+		}
+	}
+}
+
 int main() {
 	char cube[6][3][3];
 	int i, j;
 
 	build_cube(cube);
+	print_cube(cube);
+
+	rotate_cube(cube, 3, CLOCKWISE);
+	print_cube(cube);
+	rotate_cube(cube, 3, COUNTER_CLOCKWISE);
 	print_cube(cube);
 }
