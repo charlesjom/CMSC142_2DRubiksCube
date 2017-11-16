@@ -67,14 +67,71 @@ void print_cube(char cube[6][3][3]) {
 	printf("\n");
 }
 
+void assign(char src[3], char dest[3]) {
+	int i;
+	for(i=0; i<3; i++) {
+		dest[i] = src[i];
+	}
+}
+
+void rotate_side(char cube[6][3][3], int side, int direction) {
+	int i, j;
+	int cube_side[3][3];
+
+	// create a copy of that side of the cube
+	for (i=0; i<3; i++) {
+		for (j=0; j<3; j++) {
+			cube_side[i][j] = cube[side][i][j];
+		}
+	}
+	
+	// rotate based on direction given
+	// side only but not the other affected sides
+	for (i=0; i<3; i++) {
+		for (j=0; j<3; j++) {
+			if (i!=1 || j!=1) {
+				if (direction == CLOCKWISE) cube[side][i][j] = cube_side[2-j][i];
+				else cube[side][i][j] = cube_side[j][2-i];
+			}
+		}
+	}
+}
+
 void rotate_cube(char cube[6][3][3], int side, int clockwise){
 	char temp[3];
-	int i = 0, a = 2, b = 0;
+	int i, a, b;
+
+	rotate_side(cube, side, clockwise);		// rotate side
+
+	// rotate affected row/col of other sides
+	if(side == 0 || side == 5) {
+		if (side == 0) {
+			a = 0;
+		} else {
+			a = 2;
+		}
+
+		assign(cube[1][a], temp);
+		if (clockwise) {
+			assign(cube[2][a], cube[1][a]);
+			assign(cube[3][a], cube[2][a]);
+			assign(cube[4][a], cube[3][a]);
+			assign(temp, cube[4][a]);	
+		} else {
+			assign(cube[4][a], cube[1][a]);
+			assign(cube[3][a], cube[4][a]);
+			assign(cube[2][a], cube[3][a]);
+			assign(temp, cube[2][a]);
+		}
+	}
 
 	if(side == 1 || side == 3) {
 		if(side == 1) {
 			a = 0;
 			b = 2;
+		} else {
+			a = 2;
+			b = 0;
 		}
 		for(i=0; i<3; i++)
 			temp[i] = cube[0][i][a];
@@ -100,6 +157,56 @@ void rotate_cube(char cube[6][3][3], int side, int clockwise){
 				cube[2][i][a] = temp[i];
 		}
 	}
+
+	if (side == 2) {
+		a = 2;
+		b = 0;
+		assign(cube[0][a], temp);
+		if (clockwise) {
+			for(i=0; i<3; i++) 
+				cube[0][a][i] = cube[1][i][a];
+			for(i=0; i<3; i++) 
+				cube[1][i][a] = cube[5][b][i];
+			for(i=0; i<3; i++) 
+				cube[5][b][i] = cube[3][i][b];
+			for(i=0; i<3; i++) 
+				cube[3][i][b] = temp[i];
+		} else {
+			for(i=0; i<3; i++) 
+				cube[0][a][i] = cube[3][i][b];
+			for(i=0; i<3; i++) 
+				cube[3][i][b] = cube[5][b][i];
+			for(i=0; i<3; i++) 
+				cube[5][b][i] = cube[1][i][a];
+			for(i=0; i<3; i++) 
+				cube[1][i][a] = temp[i];
+		}
+	}
+
+	if (side == 4) {
+		a = 0;
+		b = 2;
+		assign(cube[0][a], temp);
+		if (clockwise) {
+			for(i=0; i<3; i++) 
+				cube[0][a][i] = cube[3][i][b];
+			for(i=0; i<3; i++) 
+				cube[3][i][b] = cube[5][b][i];
+			for(i=0; i<3; i++) 
+				cube[5][b][i] = cube[1][i][a];
+			for(i=0; i<3; i++) 
+				cube[1][i][a] = temp[i];
+		} else {
+			for(i=0; i<3; i++) 
+				cube[0][a][i] = cube[1][i][a];
+			for(i=0; i<3; i++) 
+				cube[1][i][a] = cube[5][b][i];
+			for(i=0; i<3; i++) 
+				cube[5][b][i] = cube[3][i][b];
+			for(i=0; i<3; i++) 
+				cube[3][i][b] = temp[i];
+		}
+	}
 }
 
 int main() {
@@ -109,8 +216,10 @@ int main() {
 	build_cube(cube);
 	print_cube(cube);
 
-	rotate_cube(cube, 3, CLOCKWISE);
+	rotate_cube(cube, 4, CLOCKWISE);
+	rotate_cube(cube, 4, CLOCKWISE);
 	print_cube(cube);
-	rotate_cube(cube, 3, COUNTER_CLOCKWISE);
+	rotate_cube(cube, 4, COUNTER_CLOCKWISE);
+	rotate_cube(cube, 4, COUNTER_CLOCKWISE);
 	print_cube(cube);
 }
