@@ -71,8 +71,8 @@ void rotate_cube(char cube[6][3][3], int side, int clockwise){
 	char temp[3];
 	int i = 0, a = 2, b = 0;
 
-	if(side == 3 || side == 5) {
-		if(side == 5) {
+	if(side == 1 || side == 3) {
+		if(side == 1) {
 			a = 0;
 			b = 2;
 		}
