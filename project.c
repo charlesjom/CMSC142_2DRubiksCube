@@ -137,24 +137,20 @@ void rotate_cube(char cube[6][3][3], int side, int clockwise){
 			temp[i] = cube[0][i][a];
 
 		if(clockwise) {
-			for(i=0; i<3; i++)
+			for(i=0; i<3; i++) {
 				cube[0][i][a] = cube[2][i][a];
-			for(i=0; i<3; i++)
 				cube[2][i][a] = cube[5][i][a];
-			for(i=0; i<3; i++)
 				cube[5][i][a] = cube[4][i][b];
-			for(i=0; i<3; i++)
 				cube[4][i][b] = temp[i];
+			}
 		}
 		else {
-			for(i=0; i<3; i++)
+			for(i=0; i<3; i++) {
 				cube[0][i][a] = cube[4][i][b];
-			for(i=0; i<3; i++)
 				cube[4][i][b] = cube[5][i][a];
-			for(i=0; i<3; i++)
 				cube[5][i][a] = cube[2][i][a];
-			for(i=0; i<3; i++)
 				cube[2][i][a] = temp[i];
+			}
 		}
 	}
 
@@ -163,23 +159,19 @@ void rotate_cube(char cube[6][3][3], int side, int clockwise){
 		b = 0;
 		assign(cube[0][a], temp);
 		if (clockwise) {
-			for(i=0; i<3; i++) 
+			for(i=0; i<3; i++) {
 				cube[0][a][i] = cube[1][i][a];
-			for(i=0; i<3; i++) 
 				cube[1][i][a] = cube[5][b][i];
-			for(i=0; i<3; i++) 
 				cube[5][b][i] = cube[3][i][b];
-			for(i=0; i<3; i++) 
 				cube[3][i][b] = temp[i];
+			}
 		} else {
-			for(i=0; i<3; i++) 
+			for(i=0; i<3; i++) {
 				cube[0][a][i] = cube[3][i][b];
-			for(i=0; i<3; i++) 
 				cube[3][i][b] = cube[5][b][i];
-			for(i=0; i<3; i++) 
 				cube[5][b][i] = cube[1][i][a];
-			for(i=0; i<3; i++) 
 				cube[1][i][a] = temp[i];
+			}
 		}
 	}
 
@@ -188,23 +180,19 @@ void rotate_cube(char cube[6][3][3], int side, int clockwise){
 		b = 2;
 		assign(cube[0][a], temp);
 		if (clockwise) {
-			for(i=0; i<3; i++) 
+			for(i=0; i<3; i++) {
 				cube[0][a][i] = cube[3][i][b];
-			for(i=0; i<3; i++) 
 				cube[3][i][b] = cube[5][b][i];
-			for(i=0; i<3; i++) 
 				cube[5][b][i] = cube[1][i][a];
-			for(i=0; i<3; i++) 
 				cube[1][i][a] = temp[i];
+			}
 		} else {
-			for(i=0; i<3; i++) 
+			for(i=0; i<3; i++) {
 				cube[0][a][i] = cube[1][i][a];
-			for(i=0; i<3; i++) 
 				cube[1][i][a] = cube[5][b][i];
-			for(i=0; i<3; i++) 
 				cube[5][b][i] = cube[3][i][b];
-			for(i=0; i<3; i++) 
 				cube[3][i][b] = temp[i];
+			}
 		}
 	}
 }
